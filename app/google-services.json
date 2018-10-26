@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "124027557141",
+    "firebase_url": "https://updatetest1-18bd7.firebaseio.com",
+    "project_id": "updatetest1-18bd7",
+    "storage_bucket": "updatetest1-18bd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124027557141:android:412feb78466bea10",
+        "android_client_info": {
+          "package_name": "com.teachsoft.updatetest1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124027557141-cmqnedirb5bs1ta63isgdao5q1u88r1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teachsoft.updatetest1",
+            "certificate_hash": "71c632f2008c2570844142d8f005b36ffece7ce1"
+          }
+        },
+        {
+          "client_id": "124027557141-6p6p4aub3cimf44iom3pveh8j998gipu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFVZfQrbzR2M8xBtL-RRiSxAmZSfD-RGY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124027557141-6p6p4aub3cimf44iom3pveh8j998gipu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
