@@ -21,23 +21,23 @@ import java.util.List;
 
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
 
-    private Button mButtonSendData;
+    private Button mButtonAddSubject;
     private SubjectsRecyclerViewAdapter mSubjectsRecyclerViewAdapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private List<Subject> mSubjectList = null;
-    DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference("Subjects");
+    DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference(SUBJECTS_TITLE);
 
-    private EditText mEditTextInput;
+    private EditText mEditTextSubjectInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
 
-        mButtonSendData = findViewById(R.id.buttonSendData);
-        mEditTextInput = findViewById(R.id.editTextInput);
+        mButtonAddSubject = findViewById(R.id.buttonAddSubject);
+        mEditTextSubjectInput = findViewById(R.id.editTextSubjectInput);
 
         RecyclerView recyclerViewSubjects = findViewById(R.id.recyclerViewSubjects);
         recyclerViewSubjects.setLayoutManager(new LinearLayoutManager(this));
@@ -47,10 +47,10 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         mSubjectsRecyclerViewAdapter = new SubjectsRecyclerViewAdapter(SubjectsActivity.this, new ArrayList<Subject>());
         recyclerViewSubjects.setAdapter(mSubjectsRecyclerViewAdapter);
 
-        mButtonSendData.setOnClickListener(new View.OnClickListener() {
+        mButtonAddSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String code = mEditTextInput.getText().toString();
+            String code = mEditTextSubjectInput.getText().toString();
             String title = code;
 
             if (!title.equals("")) {
@@ -63,16 +63,14 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 subject.setTitle(title);
 
 //                Test chapter
-                Chapter chapter = new Chapter();
-                chapter.setCode(code);
-                chapter.setTitle(title);
-
-                List<Chapter> chapterList = new ArrayList<>();
-                chapterList.add(chapter);
-
-                subject.setChapters(chapterList);
-
-
+//                Chapter chapter = new Chapter();
+//                chapter.setCode(code);
+//                chapter.setTitle(title);
+//
+//                List<Chapter> chapterList = new ArrayList<>();
+//                chapterList.add(chapter);
+//
+//                subject.setChapters(chapterList);
 
                 mDBReferenceSubject.setValue(subject);
             }

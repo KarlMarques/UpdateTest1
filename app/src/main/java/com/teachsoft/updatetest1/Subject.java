@@ -1,6 +1,7 @@
 package com.teachsoft.updatetest1;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 class Subject implements Serializable {
@@ -10,7 +11,9 @@ class Subject implements Serializable {
     private String mCode;
     private List<Chapter> mChapters;
 
-    public Subject(){}
+    public Subject(){
+        mChapters = new ArrayList<>();
+    }
 
     String getTitle() {
         return mTitle;
@@ -27,11 +30,4 @@ class Subject implements Serializable {
         mCode = code;
     }
     public void setChapters (List<Chapter> chapters) { mChapters = chapters; }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "mTitle='" + mTitle + '\'' +
-                '}';
-    }
 }

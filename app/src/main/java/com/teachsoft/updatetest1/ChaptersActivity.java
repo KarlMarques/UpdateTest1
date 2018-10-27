@@ -25,6 +25,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     private EditText mEditTextChapterInput;
 
     private List<Chapter> mChapterList = null;
+    private Subject mCurrentSubject;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
     DatabaseReference mDBReferenceCurrentSubject;
@@ -37,7 +38,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         setContentView(R.layout.activity_chapters);
 
         Intent intent = getIntent();
-        Subject subject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
+        mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
         mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
@@ -50,12 +51,12 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         mChaptersRecyclerViewAdapter = new ChaptersRecyclerViewAdapter(ChaptersActivity.this, new ArrayList<Chapter>());
         recyclerViewChapters.setAdapter(mChaptersRecyclerViewAdapter);
 
-        String code = subject.getCode();
-        String title = subject.getTitle();
+        String subjectCode = mCurrentSubject.getCode();
+        String subjectTitle = mCurrentSubject.getTitle();
 
-        mChapterList = subject.getChapters();
+        mChapterList = mCurrentSubject.getChapters();
 
-        mDBReferenceCurrentSubject = mFirebaseDB.getReference("Subjects/" + code);
+        mDBReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(subjectCode);
         mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -90,7 +91,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
             }
         });
 
-        Toast.makeText(ChaptersActivity.this, "title: " + title + ",\n code: " + code, Toast.LENGTH_LONG).show();
+        Toast.makeText(ChaptersActivity.this, "title: " + subjectTitle + ",\n code: " + subjectCode, Toast.LENGTH_LONG).show();
     }
 
     private void getData(DataSnapshot dataSnapshot){
@@ -114,5 +115,9 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     @Override
     public void onItemLongClick(View view, int position) {
         Toast.makeText(ChaptersActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ChaptersActivity.this, ExercisesActivity.class);
+//        intent.putExtra(CURRENT_SUBJECT, mCurrentSubject);
+//        intent.putExtra(CURRENT_CHAPTER, mChaptersRecyclerViewAdapter.getChapter(position));
+        startActivity(intent);
     }
 }

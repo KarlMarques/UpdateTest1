@@ -7,17 +7,17 @@
     tools:context=".SubjectsActivity">
 
     <Button
-        android:id="@+id/buttonSendData"
+        android:id="@+id/buttonAddSubject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Send Data"
+        android:text="Add Subject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextSubjectInput" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewSubjects"
@@ -30,10 +30,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSendData" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddSubject" />
 
     <EditText
-        android:id="@+id/editTextInput"
+        android:id="@+id/editTextSubjectInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
