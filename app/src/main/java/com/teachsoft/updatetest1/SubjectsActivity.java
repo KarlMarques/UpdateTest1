@@ -2,15 +2,12 @@ package com.teachsoft.updatetest1;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,14 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
+public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonSendData;
     private SubjectsRecyclerViewAdapter mSubjectsRecyclerViewAdapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
-    private List<ClassSubject> mClassSubjectList = null;
+    private List<Subject> mSubjectList = null;
     DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference("Subjects");
 
     private EditText mEditTextInput;
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements SubjectsRecyclerI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_subjects);
 
         mButtonSendData = findViewById(R.id.buttonSendData);
         mEditTextInput = findViewById(R.id.editTextInput);
@@ -45,22 +42,40 @@ public class MainActivity extends AppCompatActivity implements SubjectsRecyclerI
         RecyclerView recyclerViewSubjects = findViewById(R.id.recyclerViewSubjects);
         recyclerViewSubjects.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerViewSubjects.addOnItemTouchListener(new SubjectsRecyclerItemClickListener(MainActivity.this, recyclerViewSubjects, MainActivity.this));
+        recyclerViewSubjects.addOnItemTouchListener(new SubjectsRecyclerItemClickListener(SubjectsActivity.this, recyclerViewSubjects, SubjectsActivity.this));
 
-        mSubjectsRecyclerViewAdapter = new SubjectsRecyclerViewAdapter(MainActivity.this, new ArrayList<ClassSubject>());
+        mSubjectsRecyclerViewAdapter = new SubjectsRecyclerViewAdapter(SubjectsActivity.this, new ArrayList<Subject>());
         recyclerViewSubjects.setAdapter(mSubjectsRecyclerViewAdapter);
 
         mButtonSendData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = mEditTextInput.getText().toString();
+            String code = mEditTextInput.getText().toString();
+            String title = code;
 
-                if (!title.equals("")) {
-                    DatabaseReference mDBReferenceSubject = mDBReferenceSubjects.child(title);
-                    title = title + " Title";
-                    ClassSubject classSubject = new ClassSubject(title);
-                    mDBReferenceSubject.setValue(classSubject);
-                }
+            if (!title.equals("")) {
+                DatabaseReference mDBReferenceSubject = mDBReferenceSubjects.child(code);
+
+                title = title + " Title";
+
+                Subject subject = new Subject();
+                subject.setCode(code);
+                subject.setTitle(title);
+
+//                Test chapter
+                Chapter chapter = new Chapter();
+                chapter.setCode(code);
+                chapter.setTitle(title);
+
+                List<Chapter> chapterList = new ArrayList<>();
+                chapterList.add(chapter);
+
+                subject.setChapters(chapterList);
+
+
+
+                mDBReferenceSubject.setValue(subject);
+            }
             }
         });
 
@@ -79,32 +94,36 @@ public class MainActivity extends AppCompatActivity implements SubjectsRecyclerI
     @Override
     public void onItemClick(View view, int position) {
 //        Log.d(TAG, "onItemClick: starts");
-        Toast.makeText(MainActivity.this, "Normal tap at position " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SubjectsActivity.this, "Normal tap at position " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemLongClick(View view, int position) {
 //        Log.d(TAG, "onItemLongClick: starts");
-        Toast.makeText(MainActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(MySubjectsActivity.this, CurrentSubjectActivity.class);
-//        intent.putExtra(CURRENT_SUBJECT, mMySubjectsRecyclerViewAdapter.getSubject(position));
-//        startActivity(intent);
+//        Toast.makeText(SubjectsActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(SubjectsActivity.this, ChaptersActivity.class);
+        intent.putExtra(CURRENT_SUBJECT, mSubjectsRecyclerViewAdapter.getSubject(position));
+        startActivity(intent);
     }
 
 
     private void getData(DataSnapshot dataSnapshot){
-        mClassSubjectList = new ArrayList<>();
+        mSubjectList = new ArrayList<>();
 
         for (DataSnapshot ds : dataSnapshot.getChildren()){
-            String title = ds.getValue(ClassSubject.class).getTitle();
+//            String title = ds.getValue(Subject.class).getTitle();
+//            String code = ds.getValue(Subject.class).getCode();
+//
+//            Subject subject = new Subject();
+//            subject.setTitle(title);
+//            subject.setCode(code);
 
-            ClassSubject classSubject = new ClassSubject();
-            classSubject.setTitle(title);
+            Subject subject = ds.getValue(Subject.class);
 
-            mClassSubjectList.add(classSubject);
+            mSubjectList.add(subject);
         }
 
-        mSubjectsRecyclerViewAdapter.loadNewData(mClassSubjectList);
-        Toast.makeText(MainActivity.this, "ClassSubjectList size: " + mClassSubjectList.size(), Toast.LENGTH_SHORT).show();
+        mSubjectsRecyclerViewAdapter.loadNewData(mSubjectList);
+        Toast.makeText(SubjectsActivity.this, "ClassSubjectList size: " + mSubjectList.size(), Toast.LENGTH_SHORT).show();
     }
 }

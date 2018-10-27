@@ -17,10 +17,10 @@ import java.util.List;
 
 class SubjectsRecyclerViewAdapter extends RecyclerView.Adapter<SubjectsRecyclerViewAdapter.SubjectImageViewHolder> {
     private static final String TAG = "RecyclerViewAdapt";
-    private List<ClassSubject> mSubjectList;
+    private List<Subject> mSubjectList;
     private Context mContext;
 
-    public SubjectsRecyclerViewAdapter(Context context, List<ClassSubject> subjectList) {
+    public SubjectsRecyclerViewAdapter(Context context, List<Subject> subjectList) {
         mContext = context;
         mSubjectList = subjectList;
     }
@@ -43,7 +43,7 @@ class SubjectsRecyclerViewAdapter extends RecyclerView.Adapter<SubjectsRecyclerV
             holder.title.setText("No subject found");
         }
         else {
-            ClassSubject subjectItem = mSubjectList.get(position);
+            Subject subjectItem = mSubjectList.get(position);
             Log.d(TAG, "onBindViewHolder: " + subjectItem.getTitle() + " --> " + position);
             holder.title.setText(subjectItem.getTitle());
         }
@@ -55,12 +55,12 @@ class SubjectsRecyclerViewAdapter extends RecyclerView.Adapter<SubjectsRecyclerV
         return ((mSubjectList != null) && (mSubjectList.size() != 0) ? mSubjectList.size() : 1);
     }
 
-    void loadNewData(List<ClassSubject> newSubject) {
+    void loadNewData(List<Subject> newSubject) {
         mSubjectList = newSubject;
         notifyDataSetChanged();
     }
 
-    public ClassSubject getSubject(int position) {
+    public Subject getSubject(int position) {
         return ((mSubjectList != null) && (mSubjectList.size() != 0) ? mSubjectList.get(position) : null);
     }
 
