@@ -1,6 +1,7 @@
 package com.teachsoft.updatetest1;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 class Subject implements Serializable {
@@ -8,7 +9,8 @@ class Subject implements Serializable {
 
     private String mTitle;
     private String mCode;
-    private List<Chapter> mChapters;
+//    private List<Chapter> mChapters;
+    private HashMap<String, Chapter> mChapters;
 
     public Subject(){}
 
@@ -18,7 +20,7 @@ class Subject implements Serializable {
     String getCode() {
         return mCode;
     }
-    List<Chapter> getChapters() { return mChapters; }
+    HashMap<String, Chapter> getChapters() { return mChapters; }
 
     public void setTitle(String title) {
         mTitle = title;
@@ -26,7 +28,7 @@ class Subject implements Serializable {
     public void setCode(String code) {
         mCode = code;
     }
-    public void setChapters (List<Chapter> chapters) { mChapters = chapters; }
+    public void setChapters (HashMap<String, Chapter> chapters) { mChapters = chapters; }
 
     @Override
     public String toString() {

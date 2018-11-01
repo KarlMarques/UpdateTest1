@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerItemClickListener.OnRecyclerClickListener {
@@ -24,7 +25,8 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     private Button mButtonAddChapter;
     private EditText mEditTextChapterInput;
 
-    private List<Chapter> mChapterList = null;
+//    private List<Chapter> mChapterList = null;
+    private HashMap<String, Chapter> mChapterHashMap = null;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
     DatabaseReference mDBReferenceCurrentSubject;
@@ -53,7 +55,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         String code = subject.getCode();
         String title = subject.getTitle();
 
-        mChapterList = subject.getChapters();
+        mChapterHashMap = subject.getChapters();
 
         mDBReferenceCurrentSubject = mFirebaseDB.getReference("Subjects/" + code);
         mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
@@ -81,11 +83,11 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
                     chapter.setCode(code);
                     chapter.setTitle(title);
 
-                    if (!mChapterList.contains(chapter)){
-                        mChapterList.add(chapter);
-                    }
+//                    if (!mChapterHashMap.contains(chapter)){
+                        mChapterHashMap.put(chapter.getCode(), chapter);
+//                    }
 
-                    mDBReferenceSubject.setValue(mChapterList);
+                    mDBReferenceSubject.setValue(mChapterHashMap);
                 }
             }
         });

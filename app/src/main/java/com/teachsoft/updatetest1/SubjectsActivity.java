@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
@@ -67,10 +68,13 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 chapter.setCode(code);
                 chapter.setTitle(title);
 
-                List<Chapter> chapterList = new ArrayList<>();
-                chapterList.add(chapter);
+                HashMap<String, Chapter> chapterHashMap = new HashMap<>();
 
-                subject.setChapters(chapterList);
+                chapterHashMap.put(code, chapter);
+//                List<Chapter> chapterList = new ArrayList<>();
+//                chapterList.add(chapter);
+
+                subject.setChapters(chapterHashMap);
 
 
 
