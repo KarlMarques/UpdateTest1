@@ -27,10 +27,10 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
 
     private HashMap<String, Chapter> mChapterHashMap = null;
 
+    private ChaptersRecyclerViewAdapter mChaptersRecyclerViewAdapter;
+
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
     DatabaseReference mDBReferenceCurrentSubject;
-
-    private ChaptersRecyclerViewAdapter mChaptersRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +39,18 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
 
         Intent intent = getIntent();
         Subject currentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
+        String code = currentSubject.getCode();
+        String title = currentSubject.getTitle();
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
         mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
 
         RecyclerView recyclerViewChapters = findViewById(R.id.recyclerViewChapters);
         recyclerViewChapters.setLayoutManager(new LinearLayoutManager(this));
-
         recyclerViewChapters.addOnItemTouchListener(new ChaptersRecyclerItemClickListener(ChaptersActivity.this, recyclerViewChapters, ChaptersActivity.this));
 
         mChaptersRecyclerViewAdapter = new ChaptersRecyclerViewAdapter(ChaptersActivity.this, new ArrayList<Chapter>());
         recyclerViewChapters.setAdapter(mChaptersRecyclerViewAdapter);
-
-        String code = currentSubject.getCode();
-        String title = currentSubject.getTitle();
-
-        mChapterHashMap = currentSubject.getChapters();
-        mDBReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
-        mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getData(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
 
         mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +76,19 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
             }
         });
 
-        Toast.makeText(ChaptersActivity.this, "title: " + title + ",\n code: " + code, Toast.LENGTH_LONG).show();
+        mChapterHashMap = currentSubject.getChapters();
+        mDBReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
+        mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+//        Toast.makeText(ChaptersActivity.this, "title: " + title + ",\n code: " + code, Toast.LENGTH_LONG).show();
     }
 
     private void getData(DataSnapshot dataSnapshot){

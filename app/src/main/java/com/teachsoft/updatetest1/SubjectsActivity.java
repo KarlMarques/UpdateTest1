@@ -23,14 +23,14 @@ import java.util.List;
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonSendData;
+    private EditText mEditTextInput;
+
+    private List<Subject> mSubjectList = null;
+
     private SubjectsRecyclerViewAdapter mSubjectsRecyclerViewAdapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
-
-    private List<Subject> mSubjectList = null;
     DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference(SUBJECTS_TITLE);
-
-    private EditText mEditTextInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
 
         RecyclerView recyclerViewSubjects = findViewById(R.id.recyclerViewSubjects);
         recyclerViewSubjects.setLayoutManager(new LinearLayoutManager(this));
-
         recyclerViewSubjects.addOnItemTouchListener(new SubjectsRecyclerItemClickListener(SubjectsActivity.this, recyclerViewSubjects, SubjectsActivity.this));
 
         mSubjectsRecyclerViewAdapter = new SubjectsRecyclerViewAdapter(SubjectsActivity.this, new ArrayList<Subject>());
@@ -63,15 +62,11 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 subject.setCode(code);
                 subject.setTitle(title);
 
-                HashMap<String, Chapter> chapterHashMap = new HashMap<>();
-
 //                Test chapter
 //                Chapter chapter = new Chapter();
 //                chapter.setCode(code);
 //                chapter.setTitle(title);
 //                chapterHashMap.put(code, chapter);
-
-                subject.setChapters(chapterHashMap);
 
                 mDBReferenceSubject.setValue(subject);
             }
