@@ -23,11 +23,4 @@ class Chapter implements Serializable {
     public void setCode(String code) {
         mCode = code;
     }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "mTitle='" + mTitle + '\'' +
-                '}';
-    }
 }

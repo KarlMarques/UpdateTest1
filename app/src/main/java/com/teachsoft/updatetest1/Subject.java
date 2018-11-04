@@ -9,7 +9,6 @@ class Subject implements Serializable {
 
     private String mTitle;
     private String mCode;
-//    private List<Chapter> mChapters;
     private HashMap<String, Chapter> mChapters;
 
     public Subject(){}
@@ -29,11 +28,4 @@ class Subject implements Serializable {
         mCode = code;
     }
     public void setChapters (HashMap<String, Chapter> chapters) { mChapters = chapters; }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "mTitle='" + mTitle + '\'' +
-                '}';
-    }
 }

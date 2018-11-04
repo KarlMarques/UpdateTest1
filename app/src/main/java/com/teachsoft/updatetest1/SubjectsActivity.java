@@ -28,7 +28,7 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     private List<Subject> mSubjectList = null;
-    DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference("Subjects");
+    DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference(SUBJECTS_TITLE);
 
     private EditText mEditTextInput;
 
@@ -63,20 +63,15 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 subject.setCode(code);
                 subject.setTitle(title);
 
+                HashMap<String, Chapter> chapterHashMap = new HashMap<>();
+
 //                Test chapter
                 Chapter chapter = new Chapter();
                 chapter.setCode(code);
                 chapter.setTitle(title);
-
-                HashMap<String, Chapter> chapterHashMap = new HashMap<>();
-
                 chapterHashMap.put(code, chapter);
-//                List<Chapter> chapterList = new ArrayList<>();
-//                chapterList.add(chapter);
 
                 subject.setChapters(chapterHashMap);
-
-
 
                 mDBReferenceSubject.setValue(subject);
             }
@@ -115,15 +110,7 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         mSubjectList = new ArrayList<>();
 
         for (DataSnapshot ds : dataSnapshot.getChildren()){
-//            String title = ds.getValue(Subject.class).getTitle();
-//            String code = ds.getValue(Subject.class).getCode();
-//
-//            Subject subject = new Subject();
-//            subject.setTitle(title);
-//            subject.setCode(code);
-
             Subject subject = ds.getValue(Subject.class);
-
             mSubjectList.add(subject);
         }
 

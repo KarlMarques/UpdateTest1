@@ -25,7 +25,6 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     private Button mButtonAddChapter;
     private EditText mEditTextChapterInput;
 
-//    private List<Chapter> mChapterList = null;
     private HashMap<String, Chapter> mChapterHashMap = null;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
@@ -39,7 +38,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         setContentView(R.layout.activity_chapters);
 
         Intent intent = getIntent();
-        Subject subject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
+        Subject currentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
         mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
@@ -52,12 +51,11 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         mChaptersRecyclerViewAdapter = new ChaptersRecyclerViewAdapter(ChaptersActivity.this, new ArrayList<Chapter>());
         recyclerViewChapters.setAdapter(mChaptersRecyclerViewAdapter);
 
-        String code = subject.getCode();
-        String title = subject.getTitle();
+        String code = currentSubject.getCode();
+        String title = currentSubject.getTitle();
 
-        mChapterHashMap = subject.getChapters();
-
-        mDBReferenceCurrentSubject = mFirebaseDB.getReference("Subjects/" + code);
+        mChapterHashMap = currentSubject.getChapters();
+        mDBReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
         mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,7 +73,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
                 String title = code;
 
                 if (!title.equals("")) {
-                    DatabaseReference mDBReferenceSubject = mDBReferenceCurrentSubject.child(CHAPTERS_TITLE);
+                    DatabaseReference mDBReferenceChapters = mDBReferenceCurrentSubject.child(CHAPTERS_TITLE);
 
                     title = title + " Title";
 
@@ -83,11 +81,11 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
                     chapter.setCode(code);
                     chapter.setTitle(title);
 
-//                    if (!mChapterHashMap.contains(chapter)){
+                    if (!mChapterHashMap.containsKey(code)){
                         mChapterHashMap.put(chapter.getCode(), chapter);
-//                    }
+                    }
 
-                    mDBReferenceSubject.setValue(mChapterHashMap);
+                    mDBReferenceChapters.setValue(mChapterHashMap);
                 }
             }
         });
