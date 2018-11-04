@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,8 +20,8 @@ import java.util.List;
 
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
 
-    private Button mButtonSendData;
-    private EditText mEditTextInput;
+    private Button mButtonAddSubject;
+    private EditText mEditTextSubjectInput;
 
     private List<Subject> mSubjectList = null;
 
@@ -36,8 +35,8 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
 
-        mButtonSendData = findViewById(R.id.buttonSendData);
-        mEditTextInput = findViewById(R.id.editTextInput);
+        mButtonAddSubject = findViewById(R.id.buttonAddSubject);
+        mEditTextSubjectInput = findViewById(R.id.editTextSubjectInput);
 
         RecyclerView recyclerViewSubjects = findViewById(R.id.recyclerViewSubjects);
         recyclerViewSubjects.setLayoutManager(new LinearLayoutManager(this));
@@ -57,10 +56,10 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
 
-        mButtonSendData.setOnClickListener(new View.OnClickListener() {
+        mButtonAddSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String code = mEditTextInput.getText().toString();
+            String code = mEditTextSubjectInput.getText().toString();
             String title = code;
 
             if (!title.equals("")) {
