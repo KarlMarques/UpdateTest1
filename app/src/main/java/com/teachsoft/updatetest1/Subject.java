@@ -21,9 +21,7 @@ class Subject implements Serializable {
     }
     HashMap<String, Chapter> getChapters() { return mChapters; }
 
-    public void setTitle(String title) {
-        mTitle = title;
-    }
+    public void setTitle(String title) { mTitle = title; }
     public void setCode(String code) {
         mCode = code;
     }
