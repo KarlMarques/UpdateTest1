@@ -39,8 +39,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
 //        Read params passed by prior activity
         Intent intent = getIntent();
         Subject currentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
-        String code = currentSubject.getCode();
-        String title = currentSubject.getTitle();
+        String subjectCode = currentSubject.getCode();
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
         mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
@@ -52,7 +51,7 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         mChaptersRecyclerViewAdapter = new ChaptersRecyclerViewAdapter(ChaptersActivity.this, new ArrayList<Chapter>());
         recyclerViewChapters.setAdapter(mChaptersRecyclerViewAdapter);
 
-        mDBReferenceChapters = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code).child(CHAPTERS_TITLE);
+        mDBReferenceChapters = mFirebaseDB.getReference(SUBJECTS_TITLE).child(subjectCode).child(CHAPTERS_TITLE);
         mDBReferenceChapters.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,32 +65,33 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String code = mEditTextChapterInput.getText().toString();
-                String title = code;
+            String code = mEditTextChapterInput.getText().toString();
+            String title = code;
 
-                if (!title.equals("")) {
-                    DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
+            if (!title.equals("")) {
+                DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
 
-                    title = title + " Title";
+                title = title + " Title";
 
-                    Chapter chapter = new Chapter();
-                    chapter.setCode(code);
-                    chapter.setTitle(title);
+                Chapter chapter = new Chapter();
+                chapter.setCode(code);
+                chapter.setTitle(title);
 
-                    mDBReferenceChapter.setValue(chapter);
-                }
+                mDBReferenceChapter.setValue(chapter);
+            }
             }
         });
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(ChaptersActivity.this, "Normal tap at position " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemLongClick(View view, int position) {
-        Toast.makeText(ChaptersActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(SubjectsActivity.this, ChaptersActivity.class);
+//        intent.putExtra(CURRENT_SUBJECT, mSubjectsRecyclerViewAdapter.getSubject(position));
+//        startActivity(intent);
     }
 
     private void getData(DataSnapshot dataSnapshot){

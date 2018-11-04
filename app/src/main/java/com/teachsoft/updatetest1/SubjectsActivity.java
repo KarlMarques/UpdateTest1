@@ -80,14 +80,10 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
 
     @Override
     public void onItemClick(View view, int position) {
-//        Log.d(TAG, "onItemClick: starts");
-//        Toast.makeText(SubjectsActivity.this, "Normal tap at position " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemLongClick(View view, int position) {
-//        Log.d(TAG, "onItemLongClick: starts");
-//        Toast.makeText(SubjectsActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(SubjectsActivity.this, ChaptersActivity.class);
         intent.putExtra(CURRENT_SUBJECT, mSubjectsRecyclerViewAdapter.getSubject(position));
         startActivity(intent);
