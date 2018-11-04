@@ -59,20 +59,23 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         mButtonAddSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String code = mEditTextSubjectInput.getText().toString();
-            String title = code;
+//                String code = mEditTextSubjectInput.getText().toString();
+//                String title = code;
+//
+//                if (!title.equals("")) {
+//                    DatabaseReference mDBReferenceSubject = mDBReferenceSubjects.child(code);
+//
+//                    title = title + " Title";
+//
+//                    Subject subject = new Subject();
+//                    subject.setCode(code);
+//                    subject.setTitle(title);
+//
+//                    mDBReferenceSubject.setValue(subject);
+//                }
 
-            if (!title.equals("")) {
-                DatabaseReference mDBReferenceSubject = mDBReferenceSubjects.child(code);
-
-                title = title + " Title";
-
-                Subject subject = new Subject();
-                subject.setCode(code);
-                subject.setTitle(title);
-
-                mDBReferenceSubject.setValue(subject);
-            }
+                Intent intent = new Intent(SubjectsActivity.this, SubjectConfigurationActivity.class);
+                startActivity(intent);
             }
         });
     }

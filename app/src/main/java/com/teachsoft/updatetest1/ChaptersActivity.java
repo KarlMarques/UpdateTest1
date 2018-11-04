@@ -67,20 +67,20 @@ public class ChaptersActivity extends BaseActivity implements ChaptersRecyclerIt
         mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String code = mEditTextChapterInput.getText().toString();
-            String title = code;
+                String code = mEditTextChapterInput.getText().toString();
+                String title = code;
 
-            if (!title.equals("")) {
-                DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
+                if (!title.equals("")) {
+                    DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
 
-                title = title + " Title";
+                    title = title + " Title";
 
-                Chapter chapter = new Chapter();
-                chapter.setCode(code);
-                chapter.setTitle(title);
+                    Chapter chapter = new Chapter();
+                    chapter.setCode(code);
+                    chapter.setTitle(title);
 
-                mDBReferenceChapter.setValue(chapter);
-            }
+                    mDBReferenceChapter.setValue(chapter);
+                }
             }
         });
     }
