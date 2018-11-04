@@ -66,10 +66,10 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 HashMap<String, Chapter> chapterHashMap = new HashMap<>();
 
 //                Test chapter
-                Chapter chapter = new Chapter();
-                chapter.setCode(code);
-                chapter.setTitle(title);
-                chapterHashMap.put(code, chapter);
+//                Chapter chapter = new Chapter();
+//                chapter.setCode(code);
+//                chapter.setTitle(title);
+//                chapterHashMap.put(code, chapter);
 
                 subject.setChapters(chapterHashMap);
 
