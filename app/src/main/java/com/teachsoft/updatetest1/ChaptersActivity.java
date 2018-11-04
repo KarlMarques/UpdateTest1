@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerItemClickListener.OnRecyclerClickListener {
@@ -25,18 +24,19 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     private Button mButtonAddChapter;
     private EditText mEditTextChapterInput;
 
-    private HashMap<String, Chapter> mChapterHashMap = null;
+    private List<Chapter> mChapterList = null;
 
     private ChaptersRecyclerViewAdapter mChaptersRecyclerViewAdapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
-    DatabaseReference mDBReferenceCurrentSubject;
+    DatabaseReference mDBReferenceChapters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapters);
 
+//        Read params passed by prior activity
         Intent intent = getIntent();
         Subject currentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
         String code = currentSubject.getCode();
@@ -52,33 +52,8 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
         mChaptersRecyclerViewAdapter = new ChaptersRecyclerViewAdapter(ChaptersActivity.this, new ArrayList<Chapter>());
         recyclerViewChapters.setAdapter(mChaptersRecyclerViewAdapter);
 
-        mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String code = mEditTextChapterInput.getText().toString();
-                String title = code;
-
-                if (!title.equals("")) {
-                    DatabaseReference mDBReferenceChapters = mDBReferenceCurrentSubject.child(CHAPTERS_TITLE);
-
-                    title = title + " Title";
-
-                    Chapter chapter = new Chapter();
-                    chapter.setCode(code);
-                    chapter.setTitle(title);
-
-                    if (!mChapterHashMap.containsKey(code)){
-                        mChapterHashMap.put(chapter.getCode(), chapter);
-                    }
-
-                    mDBReferenceChapters.setValue(mChapterHashMap);
-                }
-            }
-        });
-
-        mChapterHashMap = currentSubject.getChapters();
-        mDBReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
-        mDBReferenceCurrentSubject.addValueEventListener(new ValueEventListener() {
+        mDBReferenceChapters = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code).child(CHAPTERS_TITLE);
+        mDBReferenceChapters.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 getData(dataSnapshot);
@@ -88,20 +63,25 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
 
-//        Toast.makeText(ChaptersActivity.this, "title: " + title + ",\n code: " + code, Toast.LENGTH_LONG).show();
-    }
+        mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String code = mEditTextChapterInput.getText().toString();
+                String title = code;
 
-    private void getData(DataSnapshot dataSnapshot){
-        List<Chapter> chapterList = new ArrayList<>();
+                if (!title.equals("")) {
+                    DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
 
-        DataSnapshot chapters = dataSnapshot.child(CHAPTERS_TITLE);
+                    title = title + " Title";
 
-        for (DataSnapshot ds : chapters.getChildren()){
-            Chapter chapter = ds.getValue(Chapter.class);
-            chapterList.add(chapter);
-        }
+                    Chapter chapter = new Chapter();
+                    chapter.setCode(code);
+                    chapter.setTitle(title);
 
-        mChaptersRecyclerViewAdapter.loadNewData(chapterList);
+                    mDBReferenceChapter.setValue(chapter);
+                }
+            }
+        });
     }
 
     @Override
@@ -112,5 +92,16 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
     @Override
     public void onItemLongClick(View view, int position) {
         Toast.makeText(ChaptersActivity.this, "Long tap at position " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    private void getData(DataSnapshot dataSnapshot){
+        mChapterList = new ArrayList<>();
+
+        for (DataSnapshot ds : dataSnapshot.getChildren()){
+            Chapter chapter = ds.getValue(Chapter.class);
+            mChapterList.add(chapter);
+        }
+
+        mChaptersRecyclerViewAdapter.loadNewData(mChapterList);
     }
 }

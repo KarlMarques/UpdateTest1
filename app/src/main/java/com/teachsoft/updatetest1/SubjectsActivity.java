@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
@@ -30,7 +29,7 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
     private SubjectsRecyclerViewAdapter mSubjectsRecyclerViewAdapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
-    DatabaseReference mDBReferenceSubjects = mFirebaseDB.getReference(SUBJECTS_TITLE);
+    DatabaseReference mDBReferenceSubjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,17 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         mSubjectsRecyclerViewAdapter = new SubjectsRecyclerViewAdapter(SubjectsActivity.this, new ArrayList<Subject>());
         recyclerViewSubjects.setAdapter(mSubjectsRecyclerViewAdapter);
 
+        mDBReferenceSubjects = mFirebaseDB.getReference(SUBJECTS_TITLE);
+        mDBReferenceSubjects.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
         mButtonSendData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,27 +72,10 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
                 subject.setCode(code);
                 subject.setTitle(title);
 
-//                Test chapter
-//                Chapter chapter = new Chapter();
-//                chapter.setCode(code);
-//                chapter.setTitle(title);
-//                chapterHashMap.put(code, chapter);
-
                 mDBReferenceSubject.setValue(subject);
             }
             }
         });
-
-        mDBReferenceSubjects.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getData(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-
     }
 
     @Override
@@ -100,7 +93,6 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         startActivity(intent);
     }
 
-
     private void getData(DataSnapshot dataSnapshot){
         mSubjectList = new ArrayList<>();
 
@@ -110,6 +102,5 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         }
 
         mSubjectsRecyclerViewAdapter.loadNewData(mSubjectList);
-        Toast.makeText(SubjectsActivity.this, "ClassSubjectList size: " + mSubjectList.size(), Toast.LENGTH_SHORT).show();
     }
 }
