@@ -19,12 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerItemClickListener.OnRecyclerClickListener {
+public class ChaptersActivity extends BaseActivity implements ChaptersRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonAddChapter;
     private EditText mEditTextChapterInput;
 
     private List<Chapter> mChapterList = null;
+
+    private Subject mCurrentSubject;
 
     private ChaptersRecyclerViewAdapter mChaptersRecyclerViewAdapter;
 
@@ -38,8 +40,8 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
 
 //        Read params passed by prior activity
         Intent intent = getIntent();
-        Subject currentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
-        String subjectCode = currentSubject.getCode();
+        mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
+        String subjectCode = mCurrentSubject.getCode();
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
         mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
@@ -89,9 +91,10 @@ public class ChaptersActivity extends BaseActivity  implements ChaptersRecyclerI
 
     @Override
     public void onItemLongClick(View view, int position) {
-//        Intent intent = new Intent(SubjectsActivity.this, ChaptersActivity.class);
-//        intent.putExtra(CURRENT_SUBJECT, mSubjectsRecyclerViewAdapter.getSubject(position));
-//        startActivity(intent);
+        Intent intent = new Intent(ChaptersActivity.this, ExercisesActivity.class);
+        intent.putExtra(CURRENT_SUBJECT, mCurrentSubject);
+        intent.putExtra(CURRENT_CHAPTER, mChaptersRecyclerViewAdapter.getChapter(position));
+        startActivity(intent);
     }
 
     private void getData(DataSnapshot dataSnapshot){
