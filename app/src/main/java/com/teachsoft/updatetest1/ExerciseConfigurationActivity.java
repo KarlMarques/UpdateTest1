@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 //public class ExerciseConfigurationActivity extends AppCompatActivity {
 //
 //    @Override
@@ -22,9 +24,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ExerciseConfigurationActivity extends BaseActivity {
 
-    private Button mButtonAddExercise;
     private EditText mEditTextCodeInput;
     private EditText mEditTextTitleInput;
+    private EditText mEditTextQuestionInput;
+    private EditText mEditTextAltAInput;
+    private EditText mEditTextAltBInput;
+    private EditText mEditTextAltCInput;
+    private EditText mEditTextAltDInput;
+    private EditText mEditTextAltEInput;
+    private EditText mEditTextAnswerInput;
+
+    private Button mButtonAddExercise;
 
     private Subject mCurrentSubject;
     private Chapter mCurrentChapter;
@@ -40,22 +50,56 @@ public class ExerciseConfigurationActivity extends BaseActivity {
         mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
         mCurrentChapter = (Chapter) intent.getSerializableExtra(CURRENT_CHAPTER);
 
-        mButtonAddExercise = findViewById(R.id.buttonAddExercise);
         mEditTextCodeInput = findViewById(R.id.editTextCodeInput);
         mEditTextTitleInput = findViewById(R.id.editTextTitleInput);
+        mEditTextQuestionInput = findViewById(R.id.editTextQuestionInput);
+        mEditTextAltAInput = findViewById(R.id.editTextAltAInput);
+        mEditTextAltBInput = findViewById(R.id.editTextAltBInput);
+        mEditTextAltCInput = findViewById(R.id.editTextAltCInput);
+        mEditTextAltDInput = findViewById(R.id.editTextAltDInput);
+        mEditTextAltEInput = findViewById(R.id.editTextAltEInput);
+        mEditTextAnswerInput = findViewById(R.id.editTextAnswerInput);
+
+        mButtonAddExercise = findViewById(R.id.buttonAddExercise);
 
         mButtonAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String code = mEditTextCodeInput.getText().toString();
                 String title = mEditTextTitleInput.getText().toString();
+                String question = mEditTextQuestionInput.getText().toString();
+                String altA = mEditTextAltAInput.getText().toString();
+                String altB = mEditTextAltBInput.getText().toString();
+                String altC = mEditTextAltCInput.getText().toString();
+                String altD = mEditTextAltDInput.getText().toString();
+                String altE = mEditTextAltEInput.getText().toString();
+                String answer = mEditTextAnswerInput.getText().toString();
 
-                if (!code.equals("") && !title.equals("")){
+                Boolean fieldsComplete = !code.isEmpty() &&
+                        !question.isEmpty() &&
+                        !altA.isEmpty() &&
+                        !altB.isEmpty() &&
+                        !altC.isEmpty() &&
+                        !altD.isEmpty() &&
+                        !altE.isEmpty() &&
+                        !answer.isEmpty();
+
+                if (fieldsComplete){
                     DatabaseReference dbReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(mCurrentSubject.getCode());
 
                     Exercise exercise = new Exercise();
                     exercise.setCode(code);
                     exercise.setTitle(title);
+                    exercise.setQuestion(question);
+                    exercise.setAnswer(answer);
+
+                    HashMap<String, String> alternatives = new HashMap<>();
+                    alternatives.put("a", altA);
+                    alternatives.put("b", altB);
+                    alternatives.put("c", altC);
+                    alternatives.put("d", altD);
+                    alternatives.put("e", altE);
+                    exercise.setAlternatives(alternatives);
 
                     mCurrentChapter.setExercise(code, exercise);
                     mCurrentSubject.setChapter(mCurrentChapter.getCode(), mCurrentChapter);

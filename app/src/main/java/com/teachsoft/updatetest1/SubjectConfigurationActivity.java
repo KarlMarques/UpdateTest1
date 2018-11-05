@@ -33,7 +33,7 @@ public class SubjectConfigurationActivity extends BaseActivity {
                 String code = mEditTextCodeInput.getText().toString();
                 String title = mEditTextTitleInput.getText().toString();
 
-                if (!code.equals("") && !title.equals("")){
+                if (!code.isEmpty() && !title.isEmpty()){
                     DatabaseReference dbReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
 
                     Subject subject = new Subject();

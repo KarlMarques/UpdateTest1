@@ -38,7 +38,7 @@ public class ChapterConfigurationActivity extends BaseActivity {
                 String code = mEditTextCodeInput.getText().toString();
                 String title = mEditTextTitleInput.getText().toString();
 
-                if (!code.equals("") && !title.equals("")){
+                if (!code.isEmpty() && !title.isEmpty()){
                     DatabaseReference dbReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(mCurrentSubject.getCode());
 
                     Chapter chapter = new Chapter();

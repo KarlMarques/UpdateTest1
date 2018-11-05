@@ -8,9 +8,13 @@ class Exercise implements Serializable {
 
     private String mTitle;
     private String mCode;
-    private HashMap<String, Exercise> mExercises;
+    private String mQuestion;
+    private String mAnswer;
+    private String mDifficulty;
 
-    public Exercise(){ mExercises = new HashMap<>(); }
+    private HashMap<String, String> mAlternatives;
+
+    public Exercise(){ mAlternatives = new HashMap<>(); }
 
     String getTitle() {
         return mTitle;
@@ -18,7 +22,12 @@ class Exercise implements Serializable {
     String getCode() {
         return mCode;
     }
-    HashMap<String, Exercise> getExercises() { return mExercises; }
+    String getQuestion() { return mQuestion; }
+    String getAnswer() { return  mAnswer; }
+    String getDifficulty() { return  mDifficulty; }
+
+    HashMap<String, String> getAlternatives() { return mAlternatives; }
+    String getAlternative(String key) { return mAlternatives.get(key); }
 
     public void setTitle(String title) {
         mTitle = title;
@@ -26,5 +35,10 @@ class Exercise implements Serializable {
     public void setCode(String code) {
         mCode = code;
     }
-    public void setExercises (HashMap<String, Exercise> exercises) { mExercises = exercises; }
+    public void setQuestion(String question) { mQuestion = question; }
+    public void setAnswer(String answer) { mAnswer = answer; }
+    public void setDifficulty(String difficulty) { mDifficulty = difficulty; }
+
+    public void setAlternatives (HashMap<String, String> alternatives) { mAlternatives = alternatives; }
+    public void setAlternative (String key, String alternative) { mAlternatives.put(key, alternative); }
 }
