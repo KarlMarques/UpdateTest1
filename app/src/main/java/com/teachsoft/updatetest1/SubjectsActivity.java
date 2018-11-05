@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +20,6 @@ import java.util.List;
 public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonAddSubject;
-    private EditText mEditTextSubjectInput;
 
     private List<Subject> mSubjectList = null;
 
@@ -36,7 +34,6 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         setContentView(R.layout.activity_subjects);
 
         mButtonAddSubject = findViewById(R.id.buttonAddSubject);
-        mEditTextSubjectInput = findViewById(R.id.editTextSubjectInput);
 
         RecyclerView recyclerViewSubjects = findViewById(R.id.recyclerViewSubjects);
         recyclerViewSubjects.setLayoutManager(new LinearLayoutManager(this));
@@ -59,21 +56,6 @@ public class SubjectsActivity extends BaseActivity implements SubjectsRecyclerIt
         mButtonAddSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String code = mEditTextSubjectInput.getText().toString();
-//                String title = code;
-//
-//                if (!title.equals("")) {
-//                    DatabaseReference mDBReferenceSubject = mDBReferenceSubjects.child(code);
-//
-//                    title = title + " Title";
-//
-//                    Subject subject = new Subject();
-//                    subject.setCode(code);
-//                    subject.setTitle(title);
-//
-//                    mDBReferenceSubject.setValue(subject);
-//                }
-
                 Intent intent = new Intent(SubjectsActivity.this, SubjectConfigurationActivity.class);
                 startActivity(intent);
             }

@@ -22,7 +22,6 @@ import java.util.List;
 public class ChaptersActivity extends BaseActivity implements ChaptersRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonAddChapter;
-    private EditText mEditTextChapterInput;
 
     private List<Chapter> mChapterList = null;
 
@@ -38,13 +37,11 @@ public class ChaptersActivity extends BaseActivity implements ChaptersRecyclerIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapters);
 
-//        Read params passed by prior activity
         Intent intent = getIntent();
         mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
         String subjectCode = mCurrentSubject.getCode();
 
         mButtonAddChapter = findViewById(R.id.buttonAddChapter);
-        mEditTextChapterInput = findViewById(R.id.editTextChapterInput);
 
         RecyclerView recyclerViewChapters = findViewById(R.id.recyclerViewChapters);
         recyclerViewChapters.setLayoutManager(new LinearLayoutManager(this));
@@ -67,20 +64,9 @@ public class ChaptersActivity extends BaseActivity implements ChaptersRecyclerIt
         mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String code = mEditTextChapterInput.getText().toString();
-                String title = code;
-
-                if (!title.equals("")) {
-                    DatabaseReference mDBReferenceChapter = mDBReferenceChapters.child(code);
-
-                    title = title + " Title";
-
-                    Chapter chapter = new Chapter();
-                    chapter.setCode(code);
-                    chapter.setTitle(title);
-
-                    mDBReferenceChapter.setValue(chapter);
-                }
+                Intent intent = new Intent(ChaptersActivity.this, ChapterConfigurationActivity.class);
+                intent.putExtra(CURRENT_SUBJECT, mCurrentSubject);
+                startActivity(intent);
             }
         });
     }

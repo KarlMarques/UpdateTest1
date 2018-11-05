@@ -20,10 +20,12 @@ class Subject implements Serializable {
         return mCode;
     }
     HashMap<String, Chapter> getChapters() { return mChapters; }
+    Chapter getChapter(String key) { return mChapters.get(key); }
 
     public void setTitle(String title) { mTitle = title; }
     public void setCode(String code) {
         mCode = code;
     }
-    public void setChapters (HashMap<String, Chapter> chapters) { mChapters = chapters; }
+    public void setChapters(HashMap<String, Chapter> chapters) { mChapters = chapters; }
+    public void setChapter(String key, Chapter chapter) { mChapters.put(key, chapter); }
 }

@@ -19,6 +19,7 @@ class Chapter implements Serializable {
         return mCode;
     }
     HashMap<String, Exercise> getExercises() { return mExercises; }
+    Exercise getExercise(String key) { return mExercises.get(key); }
 
     public void setTitle(String title) {
         mTitle = title;
@@ -26,5 +27,6 @@ class Chapter implements Serializable {
     public void setCode(String code) {
         mCode = code;
     }
-    public void setExercises (HashMap<String, Exercise> exercises) { mExercises = exercises; }
+    public void setExercises(HashMap<String, Exercise> exercises) { mExercises = exercises; }
+    public void setExercise(String key, Exercise exercise) { mExercises.put(key, exercise); }
 }
