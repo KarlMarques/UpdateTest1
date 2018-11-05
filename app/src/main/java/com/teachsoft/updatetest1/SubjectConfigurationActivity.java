@@ -34,13 +34,13 @@ public class SubjectConfigurationActivity extends BaseActivity {
                 String title = mEditTextTitleInput.getText().toString();
 
                 if (!code.equals("") && !title.equals("")){
-                    DatabaseReference dbReferenceSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
+                    DatabaseReference dbReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(code);
 
                     Subject subject = new Subject();
                     subject.setCode(code);
                     subject.setTitle(title);
 
-                    dbReferenceSubject.setValue(subject);
+                    dbReferenceCurrentSubject.setValue(subject);
                     Toast.makeText(SubjectConfigurationActivity.this, "Subject created", Toast.LENGTH_SHORT).show();
                 }
             }

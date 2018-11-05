@@ -20,7 +20,8 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".ExercisesActivity" />
         <activity android:name=".SubjectConfigurationActivity" />
-        <activity android:name=".ChapterConfigurationActivity"></activity>
+        <activity android:name=".ChapterConfigurationActivity" />
+        <activity android:name=".ExerciseConfigurationActivity"></activity>
     </application>
 
 </manifest>

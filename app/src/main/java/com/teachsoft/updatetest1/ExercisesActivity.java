@@ -22,7 +22,6 @@ import java.util.List;
 public class ExercisesActivity extends BaseActivity implements ExercisesRecyclerItemClickListener.OnRecyclerClickListener {
 
     private Button mButtonAddExercise;
-    private EditText mEditTextExerciseInput;
 
     private List<Exercise> mExerciseList = null;
 
@@ -47,7 +46,6 @@ public class ExercisesActivity extends BaseActivity implements ExercisesRecycler
         String chapterCode = mCurrentChapter.getCode();
 
         mButtonAddExercise = findViewById(R.id.buttonAddExercise);
-        mEditTextExerciseInput = findViewById(R.id.editTextExerciseInput);
 
         RecyclerView recyclerViewExercises = findViewById(R.id.recyclerViewExercises);
         recyclerViewExercises.setLayoutManager(new LinearLayoutManager(this));
@@ -70,20 +68,10 @@ public class ExercisesActivity extends BaseActivity implements ExercisesRecycler
         mButtonAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String code = mEditTextExerciseInput.getText().toString();
-            String title = code;
-
-            if (!title.equals("")) {
-                DatabaseReference mDBReferenceExercise = mDBReferenceExercises.child(code);
-
-                title = title + " Title";
-
-                Exercise exercise = new Exercise();
-                exercise.setCode(code);
-                exercise.setTitle(title);
-
-                mDBReferenceExercise.setValue(exercise);
-            }
+                Intent intent = new Intent(ExercisesActivity.this, ExerciseConfigurationActivity.class);
+                intent.putExtra(CURRENT_SUBJECT, mCurrentSubject);
+                intent.putExtra(CURRENT_CHAPTER, mCurrentChapter);
+                startActivity(intent);
             }
         });
     }

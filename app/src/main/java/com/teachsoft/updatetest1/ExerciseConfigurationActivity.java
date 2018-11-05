@@ -1,6 +1,7 @@
 package com.teachsoft.updatetest1;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,29 +11,40 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ChapterConfigurationActivity extends BaseActivity {
+//public class ExerciseConfigurationActivity extends AppCompatActivity {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_exercise_configuration);
+//    }
+//}
 
-    private Button mButtonAddChapter;
+public class ExerciseConfigurationActivity extends BaseActivity {
+
+    private Button mButtonAddExercise;
     private EditText mEditTextCodeInput;
     private EditText mEditTextTitleInput;
 
     private Subject mCurrentSubject;
+    private Chapter mCurrentChapter;
 
     FirebaseDatabase mFirebaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chapter_configuration);
+        setContentView(R.layout.activity_exercise_configuration);
 
         Intent intent = getIntent();
         mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
+        mCurrentChapter = (Chapter) intent.getSerializableExtra(CURRENT_CHAPTER);
 
-        mButtonAddChapter = findViewById(R.id.buttonAddChapter);
+        mButtonAddExercise = findViewById(R.id.buttonAddExercise);
         mEditTextCodeInput = findViewById(R.id.editTextCodeInput);
         mEditTextTitleInput = findViewById(R.id.editTextTitleInput);
 
-        mButtonAddChapter.setOnClickListener(new View.OnClickListener() {
+        mButtonAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String code = mEditTextCodeInput.getText().toString();
@@ -41,14 +53,15 @@ public class ChapterConfigurationActivity extends BaseActivity {
                 if (!code.equals("") && !title.equals("")){
                     DatabaseReference dbReferenceCurrentSubject = mFirebaseDB.getReference(SUBJECTS_TITLE).child(mCurrentSubject.getCode());
 
-                    Chapter chapter = new Chapter();
-                    chapter.setCode(code);
-                    chapter.setTitle(title);
+                    Exercise exercise = new Exercise();
+                    exercise.setCode(code);
+                    exercise.setTitle(title);
 
-                    mCurrentSubject.setChapter(code, chapter);
+                    mCurrentChapter.setExercise(code, exercise);
+                    mCurrentSubject.setChapter(mCurrentChapter.getCode(), mCurrentChapter);
 
                     dbReferenceCurrentSubject.setValue(mCurrentSubject);
-                    Toast.makeText(ChapterConfigurationActivity.this, "Chapter created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExerciseConfigurationActivity.this, "Exercise created", Toast.LENGTH_SHORT).show();
                 }
             }
         });
