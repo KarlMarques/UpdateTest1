@@ -11,10 +11,14 @@ class Exercise implements Serializable {
     private String mQuestion;
     private String mAnswer;
     private String mDifficulty;
+    private int mScore;
 
     private HashMap<String, String> mAlternatives;
 
-    public Exercise(){ mAlternatives = new HashMap<>(); }
+    public Exercise(){
+        mAlternatives = new HashMap<>();
+        mScore = -1;
+    }
 
     String getTitle() {
         return mTitle;
@@ -25,6 +29,7 @@ class Exercise implements Serializable {
     String getQuestion() { return mQuestion; }
     String getAnswer() { return  mAnswer; }
     String getDifficulty() { return  mDifficulty; }
+    int getScore() { return mScore; }
 
     HashMap<String, String> getAlternatives() { return mAlternatives; }
     String getAlternative(String key) { return mAlternatives.get(key); }
@@ -38,6 +43,7 @@ class Exercise implements Serializable {
     public void setQuestion(String question) { mQuestion = question; }
     public void setAnswer(String answer) { mAnswer = answer; }
     public void setDifficulty(String difficulty) { mDifficulty = difficulty; }
+    public void setScore(int score) { mScore = score; }
 
     public void setAlternatives (HashMap<String, String> alternatives) { mAlternatives = alternatives; }
     public void setAlternative (String key, String alternative) { mAlternatives.put(key, alternative); }
