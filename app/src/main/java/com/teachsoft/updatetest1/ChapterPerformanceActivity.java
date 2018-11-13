@@ -2,29 +2,28 @@ package com.teachsoft.updatetest1;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
-public class SubjectPerformanceActivity extends BaseActivity {
+public class ChapterPerformanceActivity extends BaseActivity {
     private GraphView mGraphView;
     private Subject mCurrentSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subject_performance);
+        setContentView(R.layout.activity_chapter_performance);
 
         Intent intent = getIntent();
         mCurrentSubject = (Subject) intent.getSerializableExtra(CURRENT_SUBJECT);
         String subjectCode = mCurrentSubject.getCode();
 
-        mGraphView = findViewById(R.id.graphViewSubject);
+        mGraphView = findViewById(R.id.graphViewChapter);
         initGraph();
     }
 

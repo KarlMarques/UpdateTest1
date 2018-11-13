@@ -22,7 +22,8 @@
         <activity android:name=".SubjectConfigurationActivity" />
         <activity android:name=".ChapterConfigurationActivity" />
         <activity android:name=".ExerciseConfigurationActivity" />
-        <activity android:name=".SubjectPerformanceActivity"></activity>
+        <activity android:name=".SubjectPerformanceActivity" />
+        <activity android:name=".ChapterPerformanceActivity"></activity>
     </application>
 
 </manifest>
